@@ -25,16 +25,10 @@ func (g *Grid) At(x,y int) Entity {
 	//Do a bounds check
 		//If bounds check fails, return nil
 	//return the value
-
-	/*Temporary code*/
-	if x > 40 {
-		return struct{}{} //This is an anonymous struct
-	}
-	return nil
 }
 
 func (g *Grid) InBounds(x,y int) bool {
-	return false
+	//Check if X and Y are within the bounds 
 }
 
 func (g *Grid) Width() int {
