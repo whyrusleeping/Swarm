@@ -20,8 +20,10 @@ func NewGrid(x,y int) *Grid {
 	return g
 }
 
+//Return the 'Entity' at the given coordinates
 func (g *Grid) At(x,y int) Entity {
 	//Do a bounds check
+		//If bounds check fails, return nil
 	//return the value
 
 	/*Temporary code*/
