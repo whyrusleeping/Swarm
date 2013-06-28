@@ -1,0 +1,8 @@
+#TODO
+
+- Window that renders a grid
+- A way of storing a map/maze/grid
+- Pathfinding algorithms!
+	- make them configurable
+	- different heuristics
+- A way to test our algorithms
