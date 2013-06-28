@@ -35,20 +35,21 @@ func (w *Window) poolEvents() {
 }
 
 //Render the grid on the screen
-func drawGrid(scr *sdl.Display, gr *Grid) {
+func drawGrid(screen *sdl.Display, gr *Grid) {
 	for x := 0; x < gr.Width(); x++ {
 		for y := 0; y < gr.Height(); y++ {
 			at := gr.At(x,y)
 			if at != nil {
-				scr.SetDrawColor(color.RGBA{255,255,255,128})
+				screen.SetDrawColor(color.RGBA{255,255,255,128})
 			} else {
 				//Eventually use the entity.Color option
-				scr.SetDrawColor(color.RGBA{0,0,0,128})
+				screen.SetDrawColor(color.RGBA{0,0,0,128})
 			}
-			scr.DrawPoint(x,y)
+			screen.DrawPoint(x,y)
 		}
 	}
-	scr.Present()
+	//Put all this on the screen now
+	screen.Present()
 }
 
 func (w *Window) Run() {
@@ -66,22 +67,20 @@ func (w *Window) Run() {
 	defer sdl.Quit()
 
 	//Make a new screen object to render to
-	scr, err := sdl.NewDisplay(w.X, w.Y, sdl.WINDOW_OPENGL)
+	screen, err := sdl.NewDisplay(w.X, w.Y, sdl.WINDOW_OPENGL)
 
-	scr.SetTitle(title)
+	screen.SetTitle(title)
 
-	events := make(chan sdl.Event)
 	go w.poolEvents()
 	for {
 		select {
-		case ev := <-events:
+		case ev := <-w.events:
 			switch ev.(type) {
 			case *sdl.QuitEvent:
 				return
 			}
 		case gr := <-w.DrawChan:
-			drawGrid(scr, gr)
+			drawGrid(screen, gr)
 		}
 	}
 }
-
