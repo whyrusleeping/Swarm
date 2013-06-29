@@ -25,30 +25,36 @@ func (b *Basic) Move(g *Grid) Movement {
 	//another function that gets passed in? 
 }
 
-func (b *Basic) PredictPath(g *Grid) *Point {
-	var direc *Point
+func (b *Basic) PredictPath(g *Grid) *PathQueue {
+	var direc *PathQueue
+
 	if b.AtPredictGoal() {
 		pred_at_goal = true
+		direc = NewPathQueue()
 	}
 	if b.last_d != UP && g.At(b.x, b.y - 1) == nil && !pred_at_goal {
 		b.y--
 		b.last_d = UP
 		direc = b.PredictPath(g)
-	} if b.last_d != DOWN && g.At(b.x, b.y + 1) == nil && !pred_at_goal {
+	}
+	if b.last_d != DOWN && g.At(b.x, b.y + 1) == nil && !pred_at_goal {
 		b.y++
 		b.last_d = DOWN
 		direc = b.PredictPath(g)
-	} if b.last_d != LEFT && g.At(b.x - 1, b.y) == nil && !pred_at_goal {
+	}
+	if b.last_d != LEFT && g.At(b.x - 1, b.y) == nil && !pred_at_goal {
 		b.x--
 		b.last_d = LEFT
 		direc = b.PredictPath(g)
-	} if b.last_d != RIGHT && g.At(b.x + 1, b.y) == nil && !pred_at_goal {
+	}
+	if b.last_d != RIGHT && g.At(b.x + 1, b.y) == nil && !pred_at_goal {
 		b.x++
 		b.last_d = RIGHT
 		direc = b.PredictPath(g)
 	}
-	direc.pushBack(x, y)
-
+	if !b.AtDeadEnd() {
+		direc.pushBack(Point{x,y})
+	}
 	return direc
 }
 
@@ -58,5 +64,24 @@ func (b *Basic) AtGoal() bool {
 
 func (b *(Basic) AtPredictGoal() bool {
 	return b.x == b.goalX && b.y == b.goalY
+}
+
+func (b *Basic) AtDeadEnd() {
+	 count := 0
+
+	if b.last_d != UP && g.At(b.x, b.y-1) != nil {
+		count++
+	}
+	if b.last_d != DOWN && g.At(b.x, b.y+1) != nil {
+		count++
+	}
+	if b.last_d != LEFT && g.At(b.x-1, b.y) != nil {
+		count++
+	}
+	if b.last_d != RIGHT && g.At(b.x+1, b.y) != nil {
+		count++
+	}
+
+	return count == 3
 }
 
