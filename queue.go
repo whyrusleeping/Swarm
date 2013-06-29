@@ -8,6 +8,13 @@ type PathQueue struct {
 	top int
 }
 
+func NewPoint(x, y int) Point {
+	p := new(Point)
+	point.X = x
+	point.Y = y
+	return p
+}
+
 func NewPathQueue() *PathQueue {
 	pq := new(PathQueue)
 	pq.arr = make([]Point,0,64)
