@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/whyrusleeping/sdl"
-	"log"
 	"runtime"
 	"image/color"
 )
@@ -69,7 +68,7 @@ func (w *Window) Run() {
 	//Make a new screen object to render to
 	screen, err := sdl.NewDisplay(w.X, w.Y, sdl.WINDOW_OPENGL)
 
-	screen.SetTitle(title)
+	screen.SetTitle("Awesome Window Title Here")
 
 	go w.poolEvents()
 	for {

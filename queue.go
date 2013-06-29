@@ -32,10 +32,29 @@ func (pq *PathQueue) PopBack() (p Point) {
 	return
 }
 
+func (pq *PathQueue) PopFront() (p Point) {
+	p = pq.arr[0]
+	pq.arr = pq.arr[1:]
+	return
+}
+
+func (pq *PathQueue) PushFront(p Point) {
+	pq.arr = append([]Point{p}, pq.arr...)
+}
+
 func (pq *PathQueue) Peek() Point {
 	return pq.arr[len(pq.arr)-1]
 }
 
 func (pq *PathQueue) Size() int {
 	return len(pq.arr)
+}
+
+func (pq *PathQueue) Contains(p Point) bool {
+	for _,v := range pq.arr {
+		if p.X == v.X && p.Y == v.Y {
+			return true
+		}
+	}
+	return false
 }

@@ -40,3 +40,7 @@ func (g *Grid) Width() int {
 func (g *Grid) Height() int {
 	return g.y
 }
+
+func (g *Grid) Update(e Entity, m Movement) {
+	//Move e as specified by m
+}
