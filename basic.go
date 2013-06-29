@@ -1,10 +1,13 @@
 package main
 
+import "fmt"
+
 const (
 	UP = iota
 	DOWN
 	LEFT
 	RIGHT
+	NONE
 )
 
 //Basic implements Entity and will simply try to get from where it is to its goal
@@ -12,9 +15,23 @@ type Basic struct {
 	X,Y int
 	x,y int
 	goalX, goalY int
-	queue *Point
+	//queue *Point
 	last_d int
 	pred_at_goal bool
+}
+
+func NewBasic (X,Y int, goalX, goalY int) *Basic {
+	b := new(Basic)
+	b.X = X
+	b.Y = Y
+	b.goalX = goalX
+	b.goalY = goalY
+	b.last_d = NONE
+	b.pred_at_goal = false
+	b.x = b.X
+	b.y = b.Y
+
+	return b
 }
 
 func (b *Basic) Move(g *Grid) Movement {
@@ -60,6 +77,7 @@ func (b *Basic) PredictPath(g *Grid) *PathQueue {
 }
 
 func (b *Basic) AtGoal() bool {
+	fmt.Println("GOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL!")
 	return b.X == b.goalX && b.Y == b.goalY
 }
 

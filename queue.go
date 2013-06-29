@@ -10,9 +10,9 @@ type PathQueue struct {
 
 func NewPoint(x, y int) Point {
 	p := new(Point)
-	point.X = x
-	point.Y = y
-	return p
+	p.X = x
+	p.Y = y
+	return *p
 }
 
 func NewPathQueue() *PathQueue {
