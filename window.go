@@ -81,6 +81,7 @@ func (w *Window) Run() {
 			}
 		case gr := <-w.DrawChan:
 			drawGrid(screen, gr)
+			gr.lock <-true
 		}
 	}
 }

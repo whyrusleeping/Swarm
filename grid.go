@@ -22,13 +22,15 @@ func NewGrid(x,y int) *Grid {
 
 //Return the 'Entity' at the given coordinates
 func (g *Grid) At(x,y int) Entity {
-	//Do a bounds check
-		//If bounds check fails, return nil
-	//return the value
+	if g.InBounds(x,y) {
+		return g.v[x][y]
+	} else {
+		return nil
+	}
 }
 
 func (g *Grid) InBounds(x,y int) bool {
-	//Check if X and Y are within the bounds 
+	return x > 0 && x < g.x && y > 0 && y < g.y
 }
 
 func (g *Grid) Width() int {
