@@ -9,6 +9,7 @@ import (
 type Window struct {
 	DrawChan chan *Grid
 	events chan sdl.Event
+	running bool
 	X,Y int
 }
 
@@ -25,7 +26,7 @@ func NewWindow(x,y int) *Window {
 //to integrate it into our flow, so here we loop and collect events into
 //a channel
 func (w *Window) poolEvents() {
-	for {
+	for w.running {
 		ev := sdl.PollEvent()
 		if ev != nil {
 			w.events <- ev
@@ -70,12 +71,14 @@ func (w *Window) Run() {
 
 	screen.SetTitle("Awesome Window Title Here")
 
+	w.running = true
 	go w.poolEvents()
 	for {
 		select {
 		case ev := <-w.events:
 			switch ev.(type) {
 			case *sdl.QuitEvent:
+				w.running = false
 				return
 			}
 		case gr := <-w.DrawChan:

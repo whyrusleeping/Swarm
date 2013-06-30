@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"image/color"
+)
 
 const (
 	UP = iota
@@ -14,7 +17,7 @@ const (
 type Basic struct {
 	X,Y int
 	goalX, goalY int
-	//queue *Point
+	path *PathQueue
 	visited *PointSet
 	last_d int
 	pred_at_goal bool
@@ -32,13 +35,18 @@ func NewBasic (X,Y int, goalX, goalY int) *Basic {
 	return b
 }
 
-func (b *Basic) Move(g *Grid) Movement {
-	//Decide on where to move based on information from the grid
-	//for now, if g.At(x,y) != null, that space is occupied
+//Decide on where to move based on information from the grid
+//for now, if g.At(x,y) != null, that space is occupied
 
-	//Here is where we are going to do cool pathfinding stuff, or maybe in
-	//another function that gets passed in? 
-	return Movement{}
+//Here is where we are going to do cool pathfinding stuff, or maybe in
+//another function that gets passed in? 
+func (b *Basic) Move(g *Grid) Point {
+	if b.path == nil {
+		b.visited = NewPointSet(g.Width())
+		b.path = b.PredictPath(g,Point{b.X,b.Y})
+	}
+
+	return b.path.PopBack()
 }
 
 func (b *Basic) PredictPath(g *Grid, pos Point) *PathQueue {
@@ -46,7 +54,6 @@ func (b *Basic) PredictPath(g *Grid, pos Point) *PathQueue {
 	var temp Point
 	b.visited.Add(pos)
 
-	fmt.Println(pos)
 	if b.AtPredictGoal(pos) {
 		b.pred_at_goal = true
 		direc = NewPathQueue()
@@ -107,3 +114,23 @@ func (b *Basic) AtDeadEnd(g *Grid, pos Point) bool {
 	return count == 3
 }
 
+func (b *Basic) Color() color.RGBA {
+	return color.RGBA{255,255,255,128}
+}
+
+func (b *Basic) GetX() int {
+	return b.X
+}
+
+func (b *Basic) GetY() int {
+	return b.Y
+}
+
+func (b *Basic) SetPos(p Point) {
+	b.X = p.X
+	b.Y = p.Y
+}
+
+func (b *Basic) GetGoal() Point {
+	return Point{b.goalX,b.goalY}
+}

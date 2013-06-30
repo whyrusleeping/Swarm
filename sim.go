@@ -23,6 +23,7 @@ func NewSimulation(scrx, scry int) *Simulation {
 func (s *Simulation) Run() {
 	runtime.GOMAXPROCS(4)
 	s.w.Run()
+	s.entities = append(s.entities, NewBasic(0,0,40,50))
 	for {
 		for _,e := range s.entities {
 			move := e.Move(s.grid)
