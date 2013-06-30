@@ -37,7 +37,7 @@ func (w *Window) poolEvents() {
 func drawGrid(screen *sdl.Display, gr *Grid) {
 	for x := 0; x < gr.Width(); x++ {
 		for y := 0; y < gr.Height(); y++ {
-			at := gr.At(x,y)
+			at := gr.At(Point{x,y})
 			if at != nil {
 				screen.SetDrawColor(color.RGBA{255,255,255,128})
 			} else {

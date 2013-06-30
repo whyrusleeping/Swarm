@@ -21,16 +21,16 @@ func NewGrid(x,y int) *Grid {
 }
 
 //Return the 'Entity' at the given coordinates
-func (g *Grid) At(x,y int) Entity {
-	if g.InBounds(x,y) {
-		return g.v[x][y]
+func (g *Grid) At(p Point) Entity {
+	if g.InBounds(p) {
+		return g.v[p.X][p.Y]
 	} else {
 		return nil
 	}
 }
 
-func (g *Grid) InBounds(x,y int) bool {
-	return x > 0 && x < g.x && y > 0 && y < g.y
+func (g *Grid) InBounds(p Point) bool {
+	return p.X >= 0 && p.X < g.x && p.Y >= 0 && p.Y < g.y
 }
 
 func (g *Grid) Width() int {

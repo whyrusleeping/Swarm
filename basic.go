@@ -13,9 +13,9 @@ const (
 //Basic implements Entity and will simply try to get from where it is to its goal
 type Basic struct {
 	X,Y int
-	x,y int
 	goalX, goalY int
 	//queue *Point
+	visited *PointSet
 	last_d int
 	pred_at_goal bool
 }
@@ -28,8 +28,6 @@ func NewBasic (X,Y int, goalX, goalY int) *Basic {
 	b.goalY = goalY
 	b.last_d = NONE
 	b.pred_at_goal = false
-	b.x = b.X
-	b.y = b.Y
 
 	return b
 }
@@ -43,35 +41,40 @@ func (b *Basic) Move(g *Grid) Movement {
 	return Movement{}
 }
 
-func (b *Basic) PredictPath(g *Grid) *PathQueue {
+func (b *Basic) PredictPath(g *Grid, pos Point) *PathQueue {
 	var direc *PathQueue
+	var temp Point
+	b.visited.Add(pos)
 
-	if b.AtPredictGoal() {
+	fmt.Println(pos)
+	if b.AtPredictGoal(pos) {
 		b.pred_at_goal = true
 		direc = NewPathQueue()
 	}
-	if b.last_d != UP && g.At(b.x, b.y - 1) == nil && !b.pred_at_goal {
-		b.y--
+	temp = pos.Up()
+	if g.InBounds(temp) && b.last_d != UP && g.At(temp) == nil && !b.pred_at_goal && !b.visited.Find(temp) {
 		b.last_d = UP
-		direc = b.PredictPath(g)
+		direc = b.PredictPath(g,temp)
 	}
-	if b.last_d != DOWN && g.At(b.x, b.y + 1) == nil && !b.pred_at_goal {
-		b.y++
+	temp = pos.Down()
+	if g.InBounds(temp) && b.last_d != DOWN && g.At(temp) == nil && !b.pred_at_goal && !b.visited.Find(temp) {
 		b.last_d = DOWN
-		direc = b.PredictPath(g)
+		direc = b.PredictPath(g,temp)
 	}
-	if b.last_d != LEFT && g.At(b.x - 1, b.y) == nil && !b.pred_at_goal {
-		b.x--
+	temp = pos.Left()
+	if g.InBounds(temp) && b.last_d != LEFT && g.At(temp) == nil && !b.pred_at_goal && !b.visited.Find(temp) {
 		b.last_d = LEFT
-		direc = b.PredictPath(g)
+		direc = b.PredictPath(g,temp)
 	}
-	if b.last_d != RIGHT && g.At(b.x + 1, b.y) == nil && !b.pred_at_goal {
-		b.x++
+	temp = pos.Right()
+	if g.InBounds(temp) && b.last_d != RIGHT && g.At(temp) == nil && !b.pred_at_goal && !b.visited.Find(temp) {
 		b.last_d = RIGHT
-		direc = b.PredictPath(g)
+		direc = b.PredictPath(g,temp)
 	}
-	if !b.AtDeadEnd(g) {
-		direc.PushBack(Point{b.x,b.y})
+	if !b.AtDeadEnd(g,pos) {
+		if direc != nil {
+			direc.PushBack(pos)
+		}
 	}
 	return direc
 }
@@ -81,23 +84,23 @@ func (b *Basic) AtGoal() bool {
 	return b.X == b.goalX && b.Y == b.goalY
 }
 
-func (b *Basic) AtPredictGoal() bool {
-	return b.x == b.goalX && b.y == b.goalY
+func (b *Basic) AtPredictGoal(pos Point) bool {
+	return pos.X == b.goalX && pos.Y == b.goalY
 }
 
-func (b *Basic) AtDeadEnd(g *Grid) bool {
-	 count := 0
+func (b *Basic) AtDeadEnd(g *Grid, pos Point) bool {
+	count := 0
 
-	if b.last_d != UP && g.At(b.x, b.y-1) != nil {
+	if b.last_d != UP && g.At(pos.Up()) != nil {
 		count++
 	}
-	if b.last_d != DOWN && g.At(b.x, b.y+1) != nil {
+	if b.last_d != DOWN && g.At(pos.Down()) != nil {
 		count++
 	}
-	if b.last_d != LEFT && g.At(b.x-1, b.y) != nil {
+	if b.last_d != LEFT && g.At(pos.Left()) != nil {
 		count++
 	}
-	if b.last_d != RIGHT && g.At(b.x+1, b.y) != nil {
+	if b.last_d != RIGHT && g.At(pos.Right()) != nil {
 		count++
 	}
 

@@ -1,18 +1,8 @@
 package main
 
-type Point struct {
-	X,Y int
-}
 type PathQueue struct {
 	arr []Point
 	top int
-}
-
-func NewPoint(x, y int) Point {
-	p := new(Point)
-	p.X = x
-	p.Y = y
-	return *p
 }
 
 func NewPathQueue() *PathQueue {
