@@ -34,8 +34,8 @@ func (lp *LPPriorityQueue) PopMin() *LinkPoint {
 	done:= false
 	index := 1
 	for !done && index != (len(lp.arr) - 1) {
-		if lp.arr[index].val() > lp.arr[index*2].val() {
-			if lp.arr[index*2].val() > lp.arr[index*2 + 1].val() {
+		if (index*2) <= (len(lp.arr) - 1) && lp.arr[index].val() > lp.arr[index*2].val() {
+			if (index*2 + 1) <= (len(lp.arr) - 1) && lp.arr[index*2].val() > lp.arr[index*2 + 1].val() {
 				temp = lp.arr[index*2 + 1]
 				lp.arr[index*2 + 1] = lp.arr[index]
 				lp.arr[index] = temp
@@ -46,7 +46,7 @@ func (lp *LPPriorityQueue) PopMin() *LinkPoint {
 				lp.arr[index] = temp
 				index = index*2
 			}
-		} else if lp.arr[index].val() > lp.arr[index*2 + 1].val() {
+		} else if (index*2 + 1) <= (len(lp.arr) - 1) && lp.arr[index].val() > lp.arr[index*2 + 1].val() {
 				temp = lp.arr[index*2 + 1]
 				lp.arr[index*2 + 1] = lp.arr[index]
 				lp.arr[index] = temp
