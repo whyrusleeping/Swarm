@@ -11,11 +11,11 @@ func NewPriorityQueue() *LPPriorityQueue {
 }
 
 func (lp *LPPriorityQueue) Push(p *LinkPoint) {
-	lp.arr = append(lp.arr, LinkPoint)
+	lp.arr = append(lp.arr, p)
 	done := false
 	index := len(lp.arr)-1
 	for !done && index != 1 {
-		if lp.arr[index*.5].val() > lp.arr[index].val() {
+		if lp.arr[index/2].val() > lp.arr[index].val() {
 			temp := lp.arr[index/2]
 			lp.arr[index/2] = lp.arr[index]
 			lp.arr[index] = temp
@@ -27,7 +27,8 @@ func (lp *LPPriorityQueue) Push(p *LinkPoint) {
 }
 
 func (lp *LPPriorityQueue) PopMin() *LinkPoint {
-	temp := lp.arr[1]
+	min := lp.arr[1]
+	var temp *LinkPoint
 	lp.arr[1] = lp.arr[len(lp.arr)-1]
 	lp.arr[len(lp.arr) - 1] = temp
 	done:= false
@@ -54,6 +55,6 @@ func (lp *LPPriorityQueue) PopMin() *LinkPoint {
 			done = true
 		}
 	}
-	arr = arr[:len(arr)-1]
-	return nil
+	lp.arr = lp.arr[:len(lp.arr)-1]
+	return min
 }

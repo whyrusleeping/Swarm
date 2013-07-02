@@ -44,7 +44,7 @@ func (b *Basic) Move(g *Grid) Point {
 		b.path = b.SearchFunc(g,b)
 	}
 
-	if b.path.Size() > 0 {
+	if b.path.Size() > 0 && g.At(b.path.Peek()) == nil {
 		return b.path.PopBack()
 	} else {
 		return b.Pos

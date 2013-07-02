@@ -1,5 +1,7 @@
 package main
 
+var ZeroPoint = Point{0,0}
+
 type Point struct {
 	X,Y int
 }

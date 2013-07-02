@@ -12,10 +12,7 @@ func BreadthFirst(g *Grid, e Entity) *PathQueue {
 	q.Push(NewLinkPoint(e.GetPos(),nil))
 
 	valid := func(p Point) bool {
-		if g.InBounds(p) && g.At(p) == nil && !visited.Find(p) {
-			return true
-		}
-		return false
+		return g.InBounds(p) && g.At(p) == nil && !visited.Find(p)
 	}
 	for q.Size() > 0 {
 		n := q.Pop()

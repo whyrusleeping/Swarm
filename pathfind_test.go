@@ -14,7 +14,7 @@ func TestBasicPathfind(t *testing.T) {
 	}
 	pprof.StartCPUProfile(fi)
 	grid := NewGrid(20,20)
-	basic := NewBasic(0,0,7,8)
+	basic := NewBasic(Point{0,0},Point{7,8})
 	basic.visited = NewPointSet(100)
 	//queue := basic.PredictPath(grid,Point{0,0})
 	queue := BreadthFirst(grid, basic)

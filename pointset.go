@@ -107,10 +107,10 @@ func rotateLeft(n **avlTreeNode) { //This node will be referred to as A
 	A.right = (*n).left
 
 	//Put A on B's left
-	(*n).left = cur
+	(*n).left = A
 
 	//Update cached height values
-	cur.h = calcHeight(cur)
+	A.h = calcHeight(A)
 	(*n).h = calcHeight(*n)
 }
 

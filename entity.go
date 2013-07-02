@@ -13,5 +13,3 @@ type Entity interface {
 	SetPos(p Point)
 	GetGoal() Point
 }
-
-
