@@ -30,23 +30,28 @@ func (lp *LPPriorityQueue) PopMin() *LinkPoint {
 	min := lp.arr[1]
 	var temp *LinkPoint
 	lp.arr[1] = lp.arr[len(lp.arr)-1]
-	lp.arr[len(lp.arr) - 1] = temp
+	lp.arr = lp.arr[:len(lp.arr)-1]
 	done:= false
 	index := 1
 	for !done && index != (len(lp.arr) - 1) {
+		//fmt.Println(index)
+		//fmt.Println(lp.arr)
 		if (index*2) <= (len(lp.arr) - 1) && lp.arr[index].val() > lp.arr[index*2].val() {
 			if (index*2 + 1) <= (len(lp.arr) - 1) && lp.arr[index*2].val() > lp.arr[index*2 + 1].val() {
+				//fmt.Println("A")
 				temp = lp.arr[index*2 + 1]
 				lp.arr[index*2 + 1] = lp.arr[index]
 				lp.arr[index] = temp
 				index = index*2 + 1
 			} else {
+				//fmt.Println("B")
 				temp = lp.arr[index*2]
 				lp.arr[index*2] = lp.arr[index]
 				lp.arr[index] = temp
 				index = index*2
 			}
 		} else if (index*2 + 1) <= (len(lp.arr) - 1) && lp.arr[index].val() > lp.arr[index*2 + 1].val() {
+				//fmt.Println("C")
 				temp = lp.arr[index*2 + 1]
 				lp.arr[index*2 + 1] = lp.arr[index]
 				lp.arr[index] = temp
@@ -55,6 +60,5 @@ func (lp *LPPriorityQueue) PopMin() *LinkPoint {
 			done = true
 		}
 	}
-	lp.arr = lp.arr[:len(lp.arr)-1]
 	return min
 }

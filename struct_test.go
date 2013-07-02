@@ -25,24 +25,34 @@ func TestPriorityQueue(t *testing.T) {
 	lp.cost = 4
 	pq.Push(lp)
 	//Make sure they come out in the right order
+	fmt.Println(pq.arr)
 	lp = pq.PopMin()
 	if lp.cost != 1 {
 		t.Fail()
+		fmt.Println(lp)
 	}
+	fmt.Println(pq.arr)
 	lp = pq.PopMin()
 	if lp.cost != 4 {
+		fmt.Println(lp)
 		t.Fail()
 	}
+	fmt.Println(pq.arr)
 	lp = pq.PopMin()
 	if lp.cost != 50 {
+		fmt.Println(lp)
 		t.Fail()
 	}
+	fmt.Println(pq.arr)
 	lp = pq.PopMin()
 	if lp.cost != 100 {
+		fmt.Println(lp)
 		t.Fail()
 	}
+	fmt.Println(pq.arr)
 	lp = pq.PopMin()
 	if lp.cost != 200 {
+		fmt.Println(lp)
 		t.Fail()
 	}
 	//If they dont. call t.Fail()

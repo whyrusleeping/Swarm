@@ -34,5 +34,8 @@ func (l *LPQueue) Size() int {
 }
 
 func (l *LinkPoint) val() int {
+	if l == nil {
+		panic("this point is actually nil")
+	}
 	return l.hval + l.cost
 }
