@@ -5,6 +5,49 @@ import (
 	"testing"
 )
 
+func TestPriorityQueue(t *testing.T) {
+	//Make a new priority queue
+	pq := NewPriorityQueue()
+	//Insert a bunch of things into the queue
+	lp := &LinkPoint{}
+	lp.cost = 100
+	pq.Push(lp)
+	lp = &LinkPoint{}
+	lp.cost = 50
+	pq.Push(lp)
+	lp = &LinkPoint{}
+	lp.cost = 200
+	pq.Push(lp)
+	lp = &LinkPoint{}
+	lp.cost = 1
+	pq.Push(lp)
+	lp = &LinkPoint{}
+	lp.cost = 4
+	pq.Push(lp)
+	//Make sure they come out in the right order
+	lp = pq.PopMin()
+	if lp.cost != 1 {
+		t.Fail()
+	}
+	lp = pq.PopMin()
+	if lp.cost != 4 {
+		t.Fail()
+	}
+	lp = pq.PopMin()
+	if lp.cost != 50 {
+		t.Fail()
+	}
+	lp = pq.PopMin()
+	if lp.cost != 100 {
+		t.Fail()
+	}
+	lp = pq.PopMin()
+	if lp.cost != 200 {
+		t.Fail()
+	}
+	//If they dont. call t.Fail()
+}
+
 func TestPointSet(t *testing.T) {
 	p := NewPointSet(20)
 	p.Add(Point{6,7})
