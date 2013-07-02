@@ -32,3 +32,7 @@ func (l *LPQueue) Pop() (p *LinkPoint) {
 func (l *LPQueue) Size() int {
 	return len(l.arr)
 }
+
+func (l *LinkPoint) val() int {
+	return l.hval + l.cost
+}
