@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 )
 
@@ -15,20 +14,19 @@ const (
 
 //Basic implements Entity and will simply try to get from where it is to its goal
 type Basic struct {
-	X,Y int
-	goalX, goalY int
+	Pos Point
+	Goal Point
 	path *PathQueue
 	visited *PointSet
 	last_d int
 	pred_at_goal bool
+	SearchFunc func(g *Grid, e Entity) *PathQueue
 }
 
-func NewBasic (X,Y int, goalX, goalY int) *Basic {
+func NewBasic (pos Point, goal Point) *Basic {
 	b := new(Basic)
-	b.X = X
-	b.Y = Y
-	b.goalX = goalX
-	b.goalY = goalY
+	b.Pos = pos
+	b.Goal = goal
 	b.last_d = NONE
 	b.pred_at_goal = false
 
@@ -43,16 +41,22 @@ func NewBasic (X,Y int, goalX, goalY int) *Basic {
 func (b *Basic) Move(g *Grid) Point {
 	if b.path == nil {
 		b.visited = NewPointSet(g.Width())
-		b.path = b.PredictPath(g,Point{b.X,b.Y})
+		b.path = b.SearchFunc(g,b)
 	}
 
-	return b.path.PopBack()
+	if b.path.Size() > 0 {
+		return b.path.PopBack()
+	} else {
+		return b.Pos
+	}
 }
 
-func (b *Basic) PredictPath(g *Grid, pos Point) *PathQueue {
+/*
+func PredictPath(g *Grid, e Entity) *PathQueue {
 	var direc *PathQueue
 	var temp Point
-	b.visited.Add(pos)
+	visited := NewPointSet(g.Width())
+	visited.Add(pos)
 
 	if b.AtPredictGoal(pos) {
 		b.pred_at_goal = true
@@ -85,14 +89,14 @@ func (b *Basic) PredictPath(g *Grid, pos Point) *PathQueue {
 	}
 	return direc
 }
+*/
 
 func (b *Basic) AtGoal() bool {
-	fmt.Println("GOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL!")
-	return b.X == b.goalX && b.Y == b.goalY
+	return b.Pos.Equals(b.Goal)
 }
 
 func (b *Basic) AtPredictGoal(pos Point) bool {
-	return pos.X == b.goalX && pos.Y == b.goalY
+	return pos.Equals(b.Goal)
 }
 
 func (b *Basic) AtDeadEnd(g *Grid, pos Point) bool {
@@ -118,19 +122,14 @@ func (b *Basic) Color() color.RGBA {
 	return color.RGBA{255,255,255,128}
 }
 
-func (b *Basic) GetX() int {
-	return b.X
-}
-
-func (b *Basic) GetY() int {
-	return b.Y
+func (b *Basic) GetPos() Point {
+	return b.Pos
 }
 
 func (b *Basic) SetPos(p Point) {
-	b.X = p.X
-	b.Y = p.Y
+	b.Pos = p
 }
 
 func (b *Basic) GetGoal() Point {
-	return Point{b.goalX,b.goalY}
+	return b.Goal
 }

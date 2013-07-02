@@ -9,8 +9,7 @@ type Entity interface {
 	Move(g *Grid) Point
 	AtGoal() bool
 	Color() color.RGBA
-	GetX() int
-	GetY() int
+	GetPos() Point
 	SetPos(p Point)
 	GetGoal() Point
 }

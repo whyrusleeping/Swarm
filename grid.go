@@ -42,7 +42,8 @@ func (g *Grid) Height() int {
 }
 
 func (g *Grid) Update(e Entity, p Point) {
-	g.v[e.GetX()][e.GetY()] = nil
+	pos := e.GetPos()
+	g.v[pos.X][pos.Y] = nil
 	g.v[p.X][p.Y] = e
 	e.SetPos(p)
 }

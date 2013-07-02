@@ -77,12 +77,6 @@ func (n *avlTreeNode) height() int {
 	if n == nil {
 		return 0
 	}
-	/* Debug Assert 
-	if n.h != recurHeight(n) {
-		fmt.Printf("reported: %d, actual: %d\n",n.h, recurHeight(n))
-		panic("Height height mismatch")
-	}
-	*/
 	return n.h
 }
 
@@ -101,15 +95,26 @@ func checkAVL(n **avlTreeNode) {
 	}
 }
 
-func rotateLeft(n **avlTreeNode) {
-	cur := *n
+//If the height of the right subtree is more than one greater than the length of the left subtree
+//then we need to balance it by rotating the node to the left
+func rotateLeft(n **avlTreeNode) { //This node will be referred to as A
+	A := *n
+
+	//Move A's right child (Now referred to as B) up to its location
 	*n = (*n).right
-	cur.right = (*n).left
+
+	//now set A's right child to B's left
+	A.right = (*n).left
+
+	//Put A on B's left
 	(*n).left = cur
+
+	//Update cached height values
 	cur.h = calcHeight(cur)
 	(*n).h = calcHeight(*n)
 }
 
+//See rotateLeft, same concept, just reversed
 func rotateRight(n **avlTreeNode) {
 	cur := *n
 	*n =(*n).left

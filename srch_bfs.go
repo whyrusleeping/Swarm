@@ -1,14 +1,18 @@
 package main
 
+//Simple Breadth First Search, accepts a grid to find a path through and
+//the entity that is going to travel the path
 func BreadthFirst(g *Grid, e Entity) *PathQueue {
+	//Initialize a queue to hold unexplored nodes
 	q := new(LPQueue)
-	final := NewPathQueue()
+
+	//Initialize a new set to hold explored nodes
 	visited := NewPointSet(g.Width())
 
-	q.Push(NewLinkPoint(Point{e.GetX(),e.GetY()},nil))
+	q.Push(NewLinkPoint(e.GetPos(),nil))
 
 	valid := func(p Point) bool {
-		if g.InBounds(p) && !visited.Find(p) && g.At(p) == nil {
+		if g.InBounds(p) && g.At(p) == nil && !visited.Find(p) {
 			return true
 		}
 		return false
@@ -17,6 +21,7 @@ func BreadthFirst(g *Grid, e Entity) *PathQueue {
 		n := q.Pop()
 		visited.Add(n.Point)
 		if n.Equals(e.GetGoal()) {
+			final := NewPathQueue()
 			final.PushBack(n.Point)
 			for {
 				n = n.parent

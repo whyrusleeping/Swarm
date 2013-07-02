@@ -3,6 +3,8 @@ package main
 type LinkPoint struct {
 	Point
 	parent *LinkPoint
+	hval int
+	cost int
 }
 
 func NewLinkPoint(pos Point, parent *LinkPoint) *LinkPoint {
