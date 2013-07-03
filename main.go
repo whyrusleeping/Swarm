@@ -9,6 +9,11 @@ func main() {
 	fi, _ := os.Create("pro.out")
 	pprof.StartCPUProfile(fi)
 	defer pprof.StopCPUProfile()
-	s := NewSimulation(400,400)
+	// g := NewGrid(400,400)
+	g,err := LoadGridFromBitmap("map.bmp")
+	if err != nil {
+		panic(err)
+	}
+	s := NewSimulation(g)
 	s.Run()
 }

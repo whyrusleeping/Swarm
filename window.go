@@ -40,10 +40,9 @@ func drawGrid(screen *sdl.Display, gr *Grid) {
 		for y := 0; y < gr.Height(); y++ {
 			at := gr.At(Point{x,y})
 			if at != nil {
-				screen.SetDrawColor(color.RGBA{255,255,255,128})
+				screen.SetDrawColor(at.Color())
 			} else {
-				//Eventually use the entity.Color option
-				screen.SetDrawColor(color.RGBA{0,0,0,128})
+				screen.SetDrawColor(color.RGBA{255,255,255,128})
 			}
 			screen.DrawPoint(x,y)
 		}

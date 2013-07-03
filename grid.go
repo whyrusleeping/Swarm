@@ -1,5 +1,11 @@
 package main
 
+import (
+	"os"
+	"code.google.com/p/go.image/bmp"
+	"fmt"
+)
+
 type Grid struct {
 	v [][]Entity
 	x,y int
@@ -18,6 +24,32 @@ func NewGrid(x,y int) *Grid {
 		g.v[i] = make([]Entity, y)
 	}
 	return g
+}
+
+func LoadGridFromBitmap(path string) (*Grid, error) {
+	fi, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+
+	img, err := bmp.Decode(fi)
+	if err != nil {
+		return nil, err
+	}
+
+	size := img.Bounds().Max
+	gr := NewGrid(size.X, size.Y)
+
+	for i := 0; i < gr.x; i++ {
+		for j := 0; j < gr.y; j++ {
+			r,g,b,_ := img.At(i,j).RGBA()
+			if r == 0 && g == 0 && b == 0 {
+				fmt.Println(i,j)
+				gr.v[i][j] = Wall{}
+			}
+		}
+	}
+	return gr, nil
 }
 
 //Return the 'Entity' at the given coordinates

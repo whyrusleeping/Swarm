@@ -30,6 +30,7 @@ func NewBasic (pos Point, goal Point) *Basic {
 	b.last_d = NONE
 	b.pred_at_goal = false
 
+	b.SearchFunc = BreadthFirst
 	return b
 }
 
@@ -119,7 +120,7 @@ func (b *Basic) AtDeadEnd(g *Grid, pos Point) bool {
 }
 
 func (b *Basic) Color() color.RGBA {
-	return color.RGBA{255,255,255,128}
+	return color.RGBA{0,0,0,128}
 }
 
 func (b *Basic) GetPos() Point {

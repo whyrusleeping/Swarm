@@ -11,12 +11,12 @@ type Simulation struct {
 	entities []Entity
 }
 
-func NewSimulation(scrx, scry int) *Simulation {
+func NewSimulation(g *Grid) *Simulation {
 	s := new(Simulation)
-	s.X = scrx
-	s.Y = scry
-	s.grid = NewGrid(scrx,scry)
-	s.w = NewWindow(scrx, scry)
+	s.X = g.x
+	s.Y = g.y
+	s.grid = g
+	s.w = NewWindow(s.X,s.Y)
 	return s
 }
 
